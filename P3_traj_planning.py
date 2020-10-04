@@ -52,8 +52,8 @@ def compute_smoothed_traj(path, V_des, alpha, dt):
     Hint: Use splrep and splev from scipy.interpolate
     """
     ########## Code starts here ##########
-    t = [np.sqrt((path[i,0]-path[i+1,0])**2 + (path[i,1]-path[i+1,1])**2) / V_des for i in range(path.shape[0])]
-    t_max = t[path.shape[0]-1]
+    t = [np.sqrt((path[i,0]-path[i+1,0])**2 + (path[i,1]-path[i+1,1])**2) / V_des for i in range(len(path[:,0]))]
+    t_max = t[len(path[:,1])-1]
     traj_smoothed = splev(splrep(path[:,0], path[:,1], s=alpha))
     t_smoothed = np.arange(0.0, t_max, dt)
     ########## Code ends here ##########
