@@ -21,7 +21,7 @@ class RRT(object):
         Inputs:
             obstacles: list/np.array of line segments ("walls")
             x1: start state of motion
-            x2: end state of motion
+            x2: end state of mo``tion
         Output:
             Boolean True/False
         """
@@ -105,6 +105,17 @@ class RRT(object):
 
         ########## Code starts here ##########
         
+        for i in range(len(max_iters)):
+            z = rand()
+            if z < goal_bias:
+                x_rand = self.x_goal
+            else:
+                x_rand = random_state()
+            x_near = GeometricRRT.find_nearest(V[n-1,:], x_rand)
+            x_new = GeometricRRT.steer_towards(x_near, x_rand, eps)
+            if GeometricRRT.is_free_motion(x_near, x_new):
+                V[n, :] = x_new
+        
         ########## Code ends here ##########
 
         plt.figure()
@@ -154,13 +165,13 @@ class GeometricRRT(RRT):
     def find_nearest(self, V, x):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        
+        return 
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        
+        return 
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2):
