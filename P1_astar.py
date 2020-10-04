@@ -159,7 +159,7 @@ class AStar(object):
             current = self.find_best_est_cost_through()
             if current == self.x_goal:
                 self.reconstruct_path()
-                return true
+                return True
             self.open_set.remove(current)
             self.closed_set.add(current)
             
@@ -174,7 +174,7 @@ class AStar(object):
                 self.came_from[neighbor] = current
                 self.cost_to_arrive[neighbor] = cost_to_arrive
                 self.est_cost_through[neighbor] = cost_to_arrive + self.distance(neighbor, self.x_goal)
-        return false
+        return False
                 
         ########## Code ends here ##########
 
