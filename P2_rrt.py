@@ -116,7 +116,7 @@ class RRT(object):
             if self.is_free_motion(self.obstacles, x_near, x_new):
                 P[n] = n-1
                 V[n, :] = x_new
-                if x_new == self.x_goal:
+                if np.all(x_new == self.x_goal):
                     success = True
                     self.path = V[:n,:]
                 n += 1
