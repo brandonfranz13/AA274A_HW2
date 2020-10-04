@@ -158,7 +158,7 @@ class AStar(object):
         while len(self.open_set) > 0:
             current = self.find_best_est_cost_through()
             if current == self.x_goal:
-                self.reconstruct_path()
+                self.path = self.reconstruct_path()
                 return True
             self.open_set.remove(current)
             self.closed_set.add(current)
