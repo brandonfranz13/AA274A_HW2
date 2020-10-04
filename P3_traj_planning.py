@@ -27,6 +27,10 @@ class SwitchingController(object):
             V, om: Control actions
         """
         ########## Code starts here ##########
+        if t < self.t_before_switch:
+            [V,om] = self.traj_controller.compute_control(x, y, th, t)
+        else:
+            [V,om] = self.pose_controller.compute_control(x, y, th, t)
 
         ########## Code ends here ##########
 
@@ -48,7 +52,10 @@ def compute_smoothed_traj(path, V_des, alpha, dt):
     Hint: Use splrep and splev from scipy.interpolate
     """
     ########## Code starts here ##########
-    
+    t = [np.sqrt((path[i,0]-path[i+1,0])**2 + (path[i,1]-path[i+1,1])**2) / V_des for i in range(path.shape[0])]
+    t_max = t[path.shape[0]-1]
+    traj_smoothed = splev(splrep(path[:,0], path[:,1], s=alpha))
+    t_smoothed = np.arange(0.0, t_max, dt)
     ########## Code ends here ##########
 
     return traj_smoothed, t_smoothed
@@ -71,6 +78,12 @@ def modify_traj_with_limits(traj, t, V_max, om_max, dt):
     Hint: This should almost entirely consist of calling functions from Problem Set 1
     """
     ########## Code starts here ##########
+    
+    V,om = compute_controls(traj=traj)
+    s = compute_arc_length(V, t)
+    V_scaled = rescale_V(V, om, V_max, om_max)
+    t_new = compute_tau(V_scaled, s)
+    om_scaled = rescale_om(V, om, V_scaled)
     
     ########## Code ends here ##########
 
