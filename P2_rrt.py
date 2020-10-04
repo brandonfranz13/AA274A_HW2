@@ -119,7 +119,7 @@ class RRT(object):
                 if x_new == x_goal:
                     success = True
                     self.path = V[:n,:]
-                 n += 1
+                n += 1
         ########## Code ends here ##########
 
         plt.figure()
