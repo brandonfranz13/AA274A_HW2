@@ -37,7 +37,7 @@ class AStar(object):
             Boolean True/False
         """
         ########## Code starts here ##########
-        return (x <= self.statespace_hi) & (x >= self.statespace_lo) & DetOccupancyGrid2D.is_free(x)
+        return (x <= self.statespace_hi) & (x >= self.statespace_lo) & self.occupancy.is_free(x)
         ########## Code ends here ##########
 
     def distance(self, x1, x2):
@@ -85,12 +85,13 @@ class AStar(object):
         """
         neighbors = []
         ########## Code starts here ##########
-        moves = [(self.resolution, 0), (self.resolution, self.resolution), (self.resolution, -self.resolution),...
-                (0, self.resolution), (0, -self.resolution), ...
-                (-self.resolution, 0), (-self.resolution, self.resolution), (-self.resolution, -self.resolution)]
+        moves = [(self.resolution, 0), (self.resolution, self.resolution), 
+                 (self.resolution, -self.resolution), (0, self.resolution), 
+                 (0, -self.resolution), (-self.resolution, 0), 
+                 (-self.resolution, self.resolution), (-self.resolution, -self.resolution)]
         for move in moves:
             if self.is_free(self.snap_to_grid(x)):
-                neighbors.append[self.snap_to_grid(x) + move]
+                neighbors.append(tuple(map(lambda i, j: i+j, self.snap_to_grid(x), move)))
         ########## Code ends here ##########
         return neighbors
 
@@ -154,25 +155,26 @@ class AStar(object):
                 set membership efficiently using the syntax "if item in set".
         """
         ########## Code starts here ##########
-        while self.open_set.size > 0:
-            current = find_best_est_cost_through()
+        while len(self.open_set) > 0:
+            current = self.find_best_est_cost_through()
             if current == self.x_goal:
-                return reconstruct_path()
+                self.path = self.reconstruct_path()
+                return True
             self.open_set.remove(current)
             self.closed_set.add(current)
             
-            for neighbor in get_neighbors(current):
+            for neighbor in self.get_neighbors(current):
                 if neighbor in self.closed_set:
                     continue
-                cost_to_arrive = self.cost_to_arrive[current] + distance(current, neighbor)
+                cost_to_arrive = self.cost_to_arrive[current] + self.distance(current, neighbor)
                 if neighbor not in self.open_set:
-                    self.open_set(neighbor)
+                    self.open_set.add(neighbor)
                 elif cost_to_arrive > self.cost_to_arrive[current]:
                     continue
                 self.came_from[neighbor] = current
                 self.cost_to_arrive[neighbor] = cost_to_arrive
-                self.est_cost_through[neighbor] = cost_to_arrive + distance(neighbor, self.x_goal)
-        return 
+                self.est_cost_through[neighbor] = cost_to_arrive + self.distance(neighbor, self.x_goal)
+        return False
                 
         ########## Code ends here ##########
 
