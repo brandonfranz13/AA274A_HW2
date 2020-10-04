@@ -111,9 +111,9 @@ class RRT(object):
                 x_rand = self.x_goal
             else:
                 x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
-            x_near = find_nearest(V[:n,:], x_rand)
-            x_new = steer_towards(x_near, x_rand, eps)
-            if is_free_motion(x_near, x_new):
+            x_near = self.find_nearest(V[:n,:], x_rand)
+            x_new = self.steer_towards(x_near, x_rand, eps)
+            if self.is_free_motion(x_near, x_new):
                 P[n] = n-1
                 V[n, :] = x_new
                 if x_new == x_goal:
