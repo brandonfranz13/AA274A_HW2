@@ -90,8 +90,9 @@ class AStar(object):
                  (0, -self.resolution), (-self.resolution, 0), 
                  (-self.resolution, self.resolution), (-self.resolution, -self.resolution)]
         for move in moves:
-            if self.is_free(self.snap_to_grid(x)):
-                neighbors.append(tuple(map(lambda i, j: i+j, self.snap_to_grid(x), move)))
+            neighbor = tuple(map(lambda i, j: i+j, self.snap_to_grid(x), move))
+            if self.is_free(neighbor):
+                neighbors.append(neighbor)
         ########## Code ends here ##########
         return neighbors
 
