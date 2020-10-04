@@ -116,7 +116,7 @@ class RRT(object):
             if GeometricRRT.is_free_motion(x_near, x_new):
                 P[n] = n-1
                 V[n, :] = x_new
-                if x_new == x_goal
+                if x_new == x_goal:
                     success = True
                     self.path = V[:n,:]
                  n += 1
