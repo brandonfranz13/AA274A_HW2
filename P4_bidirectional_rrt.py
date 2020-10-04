@@ -132,7 +132,44 @@ class RRTConnect(object):
         # Hint: Use your implementation of RRT as a reference
 
         ########## Code starts here ##########
-        
+        for i in range(len(max_iters)):
+            x_rand = random_state()
+            x_near = GeometricRRTConnect.find_nearest_forward(V_fw[:n_fw,:], x_rand)
+            x_new = GeometricRRTConnect.steer_towards_forward(x_near, x_rand, eps)
+            if GeometricRRTConnect.is_free_motion(x_near, x_new):
+                P_fw[n_fw] = n_fw-1
+                V_fw[n_fw, :] = x_new
+                x_connect = GeometricRRTConnect.find_nearest_backward(V_bw[:n_bw,:], x_new)
+                n_fw += 1
+                while True:
+                    x_newconnect = GeometricRRTConnect.steer_towards_backward(x_new, x_connect, eps)
+                    if GeometricRRTConnect.is_free_motion(x_newconnect, x_connect):
+                        P[n_bw] = n_bw-1
+                        V[n_bw, :] = x_newconnect
+                        if x_newconnect == x_new:
+                            # return RECONSTRUCT_PATH
+                        x_connect = x_newconnect
+                        n_bw += 1
+                    else:
+                        break
+            x_rand = random_state()
+            x_near = GeometricRRTConnect.find_nearest_backward(V[:n_bw,:], x_rand)
+            x_new = GeometricRRTConnect.steer_towards_backward(x_rand, x_new, eps)
+            if GeometricRRTConnect.is_free_motion(x_new, x_near):
+                P_bw[n_bw] = n_bw-1
+                V_bw[n_bw, :] = x_new
+                x_connect = GeometricRRTConnect.find_nearest_forward(x_connect, x_new, eps)
+                while True:
+                    x_newconnect = GeometricRRTConnect.steer_towards_forward(x_connect, x_new, eps)
+                    if GeometricRRTConnect.is_free_motion(x_connect, x_newconnect):
+                        P_fw[n_fw] = n_fw-1
+                        V[n_fw, :] = x_new
+                        if x_newconnect == x_new:
+                            #return RECONSTRUCT_PATH
+                        x_connect = x_newconnect
+                    else:
+                        break
+                
 
         ########## Code ends here ##########
 

@@ -105,17 +105,21 @@ class RRT(object):
 
         ########## Code starts here ##########
         
-        for i in range(len(max_iters)):
-            z = rand()
+        for i in range(max_iters):
+            z = np.random.uniform(0, 1)
             if z < goal_bias:
                 x_rand = self.x_goal
             else:
-                x_rand = random_state()
-            x_near = GeometricRRT.find_nearest(V[n-1,:], x_rand)
+                x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
+            x_near = GeometricRRT.find_nearest(V[:n,:], x_rand)
             x_new = GeometricRRT.steer_towards(x_near, x_rand, eps)
             if GeometricRRT.is_free_motion(x_near, x_new):
+                P[n] = n-1
                 V[n, :] = x_new
-        
+                if x_new == x_goal
+                    success = True
+                    self.path = V[:n,:]
+                 n += 1
         ########## Code ends here ##########
 
         plt.figure()
@@ -165,13 +169,18 @@ class GeometricRRT(RRT):
     def find_nearest(self, V, x):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        return 
+        return min(x-V)
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        return 
+        d = np.sqrt((x1[0]-x2[0])**2 + (x1[1]-x2[1])**2)
+        alpha = np.arctan2((x2[1]-x1[1])/(x1[0]-x2[0]))
+        if d < eps:
+            return x2
+        else:
+            return (x1[0]+eps*np.cos(alpha), x1[1]+eps*np.sin(alpha))
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2):
