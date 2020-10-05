@@ -171,8 +171,8 @@ class GeometricRRT(RRT):
         # Hint: This should take one line.
         v = abs(np.array(x)-np.array(V))
         d = v[:,0] + v[:,1]
-        i = np.where(min(d))
-        return int(i[0])
+        i = np.argmin(d)
+        return i
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
