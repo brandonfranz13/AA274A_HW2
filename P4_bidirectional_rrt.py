@@ -132,37 +132,40 @@ class RRTConnect(object):
         # Hint: Use your implementation of RRT as a reference
 
         ########## Code starts here ##########
-        for i in range(len(max_iters)):
-            x_rand = random_state()
-            x_near = GeometricRRTConnect.find_nearest_forward(V_fw[:n_fw,:], x_rand)
-            x_new = GeometricRRTConnect.steer_towards_forward(x_near, x_rand, eps)
-            if GeometricRRTConnect.is_free_motion(x_near, x_new):
-                P_fw[n_fw] = n_fw-1
+        for i in range(max_iters):
+            x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
+            nearest = self.find_nearest_forward(V_fw[:n_fw,:], x_rand)
+            x_near = V_fw[nearest, :]
+            x_new = self.steer_towards_forward(x_near, x_rand, eps)
+            if self.is_free_motion(x_near, x_new):
+                P_fw[n_fw] = nearest
                 V_fw[n_fw, :] = x_new
-                x_connect = GeometricRRTConnect.find_nearest_backward(V_bw[:n_bw,:], x_new)
+                nearest = self.find_nearest_backward(V_bw[:n_bw,:], x_new)
+                x_connect = V_bw[nearest, :]
                 n_fw += 1
                 while True:
-                    x_newconnect = GeometricRRTConnect.steer_towards_backward(x_new, x_connect, eps)
-                    if GeometricRRTConnect.is_free_motion(x_newconnect, x_connect):
-                        P[n_bw] = n_bw-1
+                    x_newconnect = self.steer_towards_backward(x_new, x_connect, eps)
+                    if self.is_free_motion(x_newconnect, x_connect):
+                        P[n_bw] = nearest
                         V[n_bw, :] = x_newconnect
-                        if x_newconnect == x_new:
+                        if np.all(x_newconnect == x_new):
                             # return RECONSTRUCT_PATH
                         x_connect = x_newconnect
                         n_bw += 1
                     else:
                         break
-            x_rand = random_state()
-            x_near = GeometricRRTConnect.find_nearest_backward(V[:n_bw,:], x_rand)
-            x_new = GeometricRRTConnect.steer_towards_backward(x_rand, x_new, eps)
-            if GeometricRRTConnect.is_free_motion(x_new, x_near):
-                P_bw[n_bw] = n_bw-1
+            x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
+            nearest = self.find_nearest_backward(V[:n_bw,:], x_rand)
+            x_near = V_bw[nearest, :]
+            x_new = self.steer_towards_backward(x_rand, x_new, eps)
+            if self.is_free_motion(x_new, x_near):
+                P_bw[n_bw] = nearest
                 V_bw[n_bw, :] = x_new
-                x_connect = GeometricRRTConnect.find_nearest_forward(x_connect, x_new, eps)
+                x_connect = self.find_nearest_forward(x_connect, x_new, eps)
                 while True:
-                    x_newconnect = GeometricRRTConnect.steer_towards_forward(x_connect, x_new, eps)
-                    if GeometricRRTConnect.is_free_motion(x_connect, x_newconnect):
-                        P_fw[n_fw] = n_fw-1
+                    x_newconnect = self.steer_towards_forward(x_connect, x_new, eps)
+                    if self.is_free_motion(x_connect, x_newconnect):
+                        P_fw[n_fw] = nearest
                         V[n_fw, :] = x_new
                         if x_newconnect == x_new:
                             #return RECONSTRUCT_PATH
@@ -203,7 +206,10 @@ class GeometricRRTConnect(RRTConnect):
     def find_nearest_forward(self, V, x):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        
+        v = abs(np.array(x)-np.array(V))
+        d = v[:,0] + v[:,1]
+        i = np.argmin(d)
+        return i
         ########## Code ends here ##########
 
     def find_nearest_backward(self, V, x):
@@ -212,7 +218,12 @@ class GeometricRRTConnect(RRTConnect):
     def steer_towards_forward(self, x1, x2, eps):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        
+        d = np.linalg.norm(x1-x2)
+        alpha = np.arctan2((x2[1]-x1[1]), (x2[0]-x1[0]))
+        if d <= eps:
+            return x2
+        else:
+            return (x1[0]+eps*np.cos(alpha), x1[1]+eps*np.sin(alpha))
         ########## Code ends here ##########
 
     def steer_towards_backward(self, x1, x2, eps):
