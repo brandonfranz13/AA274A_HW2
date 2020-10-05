@@ -169,7 +169,8 @@ class GeometricRRT(RRT):
     def find_nearest(self, V, x):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        d = np.linalg.norm(x-V)
+        d = x-V
+        print(x-V)
         print(d)
         # d = v[:,0] + v[:,1]
         i = np.where(min(d))
