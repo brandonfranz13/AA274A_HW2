@@ -118,7 +118,10 @@ class RRT(object):
                 V[n, :] = x_new
                 if np.all(x_new == self.x_goal):
                     success = True
-                    self.path = V[:n,:]
+                    print(V[:n,:])
+                    while n >= 0:
+                        self.path.append(V[n,:])
+                        n -= 1
                 n += 1
         ########## Code ends here ##########
 
