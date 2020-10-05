@@ -191,7 +191,7 @@ class GeometricRRT(RRT):
         # Hint: This should take one line.
         d = np.linalg.norm(x1-x2)
         alpha = np.arctan2((x2[1]-x1[1]), (x2[0]-x1[0]))
-        if d < eps:
+        if d <= eps:
             return x2
         else:
             return (x1[0]+eps*np.cos(alpha), x1[1]+eps*np.sin(alpha))
@@ -248,7 +248,11 @@ class DubinsRRT(RRT):
         distance eps (using self.turning_radius) due to numerical precision
         issues.
         """
-        
+        d = path_length(x1, x2, self.turning_radius)
+        if d <= eps:
+            return x2
+        else:
+            return path_sample(x1, x2, 1.001*self.turning_radius, eps)[1]
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2, resolution = np.pi/6):
