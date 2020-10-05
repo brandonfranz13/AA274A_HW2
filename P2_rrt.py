@@ -112,9 +112,6 @@ class RRT(object):
             else:
                 x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
             x_near = V[self.find_nearest(V[:n,:], x_rand), :]
-            print(self.find_nearest(V[:n,:], x_rand))
-            print(V[0,:])
-            print(x_near)
             x_new = self.steer_towards(x_near, x_rand, eps)
             if self.is_free_motion(self.obstacles, x_near, x_new):
                 P[n] = n-1
@@ -181,9 +178,8 @@ class GeometricRRT(RRT):
     def steer_towards(self, x1, x2, eps):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        print(x1, x2)
         d = np.linalg.norm(x1-x2)
-        alpha = np.arctan2((x2[1]-x1[1]), (x1[0]-x2[0]))
+        alpha = np.arctan2((x2[1]-x1[1]), (x2[0]-x1[0]))
         if d < eps:
             return x2
         else:
