@@ -120,6 +120,7 @@ class RRT(object):
                 if np.all(x_new == self.x_goal):
                     success = True
                     self.path = [V[p, :] for p in P]
+                    break
                     # for i in range(n):
                         # np.append(self.path, V[P[i+1],:])
                 n += 1
@@ -160,7 +161,11 @@ class RRT(object):
             None, but should modify self.path
         """
         ########## Code starts here ##########
-        
+        # success = False
+        # while not success:
+            # success = True
+            # for x in self.path 
+            
         ########## Code ends here ##########
 
 class GeometricRRT(RRT):
