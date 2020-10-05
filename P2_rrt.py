@@ -255,6 +255,7 @@ class DubinsRRT(RRT):
             return x2
         else:
             x, _ = path_sample(x1, x2, 1.001*self.turning_radius, eps)
+            print(x)
             return x[1]
         ########## Code ends here ##########
 
