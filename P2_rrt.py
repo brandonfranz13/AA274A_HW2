@@ -171,11 +171,11 @@ class GeometricRRT(RRT):
         # Hint: This should take one line.
         d = x-V
         print(x-V)
+        d = v[:,0] + v[:,1]
         print(d)
-        # d = v[:,0] + v[:,1]
         i = np.where(min(d))
         print(i)
-        return int(i[0])
+        return i[0]
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
