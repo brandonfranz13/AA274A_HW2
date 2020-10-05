@@ -121,7 +121,7 @@ class RRT(object):
                     success = True
                     self.path = []
                     for i in range(n):
-                        self.path[i+1] = V[P[i+1],:]
+                        self.path[i] = V[P[i+1],:]
                     # print(V[:n,:])
                     # while n >= 0:
                         # self.path.append(V[n,:])
