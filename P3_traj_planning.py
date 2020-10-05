@@ -27,7 +27,7 @@ class SwitchingController(object):
             V, om: Control actions
         """
         ########## Code starts here ##########
-        if t < self.t_before_switch:
+        if t < (self.traj_times[-1] - self.t_before_switch):
             [V,om] = self.traj_controller.compute_control(x, y, th, t)
         else:
             [V,om] = self.pose_controller.compute_control(x, y, th, t)
@@ -52,6 +52,8 @@ def compute_smoothed_traj(path, V_des, alpha, dt):
     Hint: Use splrep and splev from scipy.interpolate
     """
     ########## Code starts here ##########
+    path = np.array(path)
+    print(len(path))
     t = [np.sqrt((path[i,0]-path[i+1,0])**2 + (path[i,1]-path[i+1,1])**2) / V_des for i in range(len(path))]
     t_max = t[len(path)-1]
     traj_smoothed = splev(splrep(path[:,0], path[:,1], s=alpha))
