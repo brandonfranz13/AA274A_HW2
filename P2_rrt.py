@@ -170,7 +170,9 @@ class GeometricRRT(RRT):
         ########## Code starts here ##########
         # Hint: This should take one line.
         v = abs(x-V)
-        return v.index(np.min(v[v[:, 0] == np.min(v[:, 0])], 0))
+        d = v[:,0] + v[:,1]
+        i = d.index(min(d))
+        return i
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
