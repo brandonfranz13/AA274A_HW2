@@ -119,8 +119,10 @@ class RRT(object):
                 V[n, :] = x_new
                 if np.all(x_new == self.x_goal):
                     success = True
-                    self.path = np.zeros((n, state_dim))
-                    self.path = V[:n,:]
+                    self.path = [V[n,:]]
+                    while P[n] >= 0:
+                        self.path.append(V[P[n],:])
+                        n -= 1
                     break
                     # for i in range(n):
                         # np.append(self.path, V[P[i+1],:])
@@ -228,7 +230,11 @@ class DubinsRRT(RRT):
     def find_nearest(self, V, x):
         from dubins import path_length
         ########## Code starts here ##########
+        v = abs(np.array(x)-np.array(V))
+        d = v[:,0] + v[:,1]
+        i = np.argmin(d)
         
+        return i
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
