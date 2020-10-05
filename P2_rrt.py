@@ -169,7 +169,8 @@ class GeometricRRT(RRT):
     def find_nearest(self, V, x):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        return min(x-V)
+        v = abs(x-V)
+        return v.index(np.min(v[v[:, 0] == np.min(v[:, 0])], 0))
         ########## Code ends here ##########
 
     def steer_towards(self, x1, x2, eps):
