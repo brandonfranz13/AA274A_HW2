@@ -254,7 +254,8 @@ class DubinsRRT(RRT):
         if d <= eps:
             return x2
         else:
-            return path_sample(x1, x2, 1.001*self.turning_radius, eps)[1]
+            x, _ = path_sample(x1, x2, 1.001*self.turning_radius, eps)
+            return x[1]
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2, resolution = np.pi/6):
