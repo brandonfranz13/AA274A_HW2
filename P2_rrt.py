@@ -112,7 +112,7 @@ class RRT(object):
             else:
                 x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
             print(x_rand)
-            x_near = self.find_nearest(V[:n,:], x_rand)
+            x_near = V[self.find_nearest(V[:n,:], x_rand), :]
             print(x_near)
             x_new = self.steer_towards(x_near, x_rand, eps)
             if self.is_free_motion(self.obstacles, x_near, x_new):
