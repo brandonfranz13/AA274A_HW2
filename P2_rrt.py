@@ -170,8 +170,10 @@ class GeometricRRT(RRT):
         ########## Code starts here ##########
         # Hint: This should take one line.
         d = np.linalg.norm(x-V)
+        print(d)
         # d = v[:,0] + v[:,1]
         i = np.where(min(d))
+        print(i)
         return int(i[0])
         ########## Code ends here ##########
 
