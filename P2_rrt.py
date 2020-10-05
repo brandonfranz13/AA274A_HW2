@@ -169,7 +169,7 @@ class GeometricRRT(RRT):
     def find_nearest(self, V, x):
         ########## Code starts here ##########
         # Hint: This should take one line.
-        d = x-V
+        v = x-V
         print(x-V)
         d = v[:,0] + v[:,1]
         print(d)
