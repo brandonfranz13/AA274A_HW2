@@ -179,7 +179,7 @@ class GeometricRRT(RRT):
         ########## Code starts here ##########
         # Hint: This should take one line.
         d = np.linalg.norm(x1-x2)
-        alpha = np.arctan2((x2[1]-x1[1]), (x1[0]-x2[0]))
+        alpha = np.arctan2((x2[:,1]-x1[:,1]), (x1[:,0]-x2[:,0]))
         if d < eps:
             return x2
         else:
