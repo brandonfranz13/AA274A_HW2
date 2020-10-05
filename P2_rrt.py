@@ -248,6 +248,8 @@ class DubinsRRT(RRT):
         distance eps (using self.turning_radius) due to numerical precision
         issues.
         """
+        from dubins import path_length
+        from dubins import path_sample
         d = path_length(x1, x2, self.turning_radius)
         if d <= eps:
             return x2
