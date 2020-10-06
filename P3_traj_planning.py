@@ -52,6 +52,7 @@ def compute_smoothed_traj(path, V_des, alpha, dt):
     Hint: Use splrep and splev from scipy.interpolate
     """
     ########## Code starts here ##########
+    import pdb; pdb.set_trace()
     path = np.array(path)
     t = [0]
     t = t.append([np.sqrt((path[i,0]-path[i+1,0])**2 + (path[i,1]-path[i+1,1])**2) / V_des for i in range(len(path)-1)])
