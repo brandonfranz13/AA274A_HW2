@@ -126,7 +126,7 @@ class RRT(object):
                         path.append(V[P[n], :])
                         current = path[-1]
                         n -=1
-                    self.path = np.array(path.reverse())
+                    self.path = np.squeeze(np.array(path.reverse()))
                     # self.path = np.zeros((n, state_dim))
                     # self.path[n,:] = V[n,:]
                     
