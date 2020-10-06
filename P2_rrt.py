@@ -129,7 +129,7 @@ class RRT(object):
                         i = P[i]
                         
                     import pdb; pdb.set_trace()
-                    self.path = np.flip(np.array(self.path))
+                    self.path = np.flip(np.array(self.path), 0)
                     break
                 n += 1
         ########## Code ends here ##########
