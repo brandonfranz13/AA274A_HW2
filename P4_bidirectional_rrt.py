@@ -345,11 +345,13 @@ class DubinsRRTConnect(RRTConnect):
         ########## Code starts here ##########
         from dubins import path_length
         from dubins import path_sample
-        d = path_length(x2, x1, self.turning_radius)
+        x1_r = reverse_heading(x1)
+        x2_r = reverse_heading(x2)
+        d = path_length(x1_r, x2_r, self.turning_radius)
         if d <= eps:
             return x2
         else:
-            x, _ = path_sample(x2, x1, 1.001*self.turning_radius, eps)
+            x, _ = path_sample(x1_r, x2_r, 1.001*self.turning_radius, eps)
             return x[1]
         ########## Code ends here ##########
 
