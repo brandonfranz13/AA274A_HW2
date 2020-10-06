@@ -136,7 +136,7 @@ class RRT(object):
                 self.plot_path(color="purple", linewidth=2, label="Original solution path")
                 self.shortcut_path()
                 self.plot_path(color="green", linewidth=2, label="Shortcut solution path")
-            else:
+            # else:
                 # self.plot_path(color="green", linewidth=2, label="Solution path")
             plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.03), fancybox=True, ncol=3)
             plt.scatter(V[:n,0], V[:n,1])
