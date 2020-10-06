@@ -122,7 +122,7 @@ class RRT(object):
                     success = True
                     
                     self.path = [self.x_goal]
-                    i = len(V[:n,:]) - 1
+                    i = len(V[:n,:])
                     
                     while i >= 0:
                         self.path.append(V[i,:])
