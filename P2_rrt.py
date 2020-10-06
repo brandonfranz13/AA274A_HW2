@@ -120,22 +120,15 @@ class RRT(object):
                 V[n, :] = x_new
                 if np.all(x_new == self.x_goal):
                     success = True
-                    # path = [self.x_goal]
-                    # current = path[-1]
-                    # while np.all(current != self.x_init):
-                        # path.append(V[P[n], :])
-                        # current = path[-1]
-                        # n -=1
-                    # import pdb; pdb.set_trace()
-                    # self.path = np.squeeze(np.array(path.reverse()))
-                    self.path = [self.x_goal]
                     
+                    self.path = [self.x_goal]
                     i = len(V[:n,:]) - 1
-                    while i > 0:
+                    
+                    while i >= 0:
                         self.path.append(V[i,:])
                         i = P[i]
+                        
                     import pdb; pdb.set_trace()
-                    self.path.append(self.x_init)
                     self.path = np.flip(np.array(self.path))
                     break
                 n += 1
