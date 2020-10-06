@@ -249,7 +249,7 @@ class GeometricRRTConnect(RRTConnect):
         ########## Code starts here ##########
         # Hint: This should take one line.
         v = abs(np.array(x)-np.array(V))
-        d = v[:,0] + v[:,1] + v[:,2]
+        d = v[:,0] + v[:,1]
         i = np.argmin(d)
         return i
         ########## Code ends here ##########
@@ -319,22 +319,31 @@ class DubinsRRTConnect(RRTConnect):
 
     def find_nearest_forward(self, V, x):
         ########## Code starts here ##########
-        
+        d = np.array([path_length(V[i,:], x, self.turning_radius) for i in range(len(V))])
+        return np.argmin(d)
         ########## Code ends here ##########
 
     def find_nearest_backward(self, V, x):
         ########## Code starts here ##########
-        
+        d = np.array([path_length( x, V[i,:], self.turning_radius) for i in range(len(V))])
+        return np.argmin(d)
         ########## Code ends here ##########
 
     def steer_towards_forward(self, x1, x2, eps):
         ########## Code starts here ##########
-        
+        from dubins import path_length
+        from dubins import path_sample
+        d = path_length(x1, x2, self.turning_radius)
+        if d <= eps:
+            return x2
+        else:
+            x, _ = path_sample(x1, x2, 1.001*self.turning_radius, eps)
+            return x[1]
         ########## Code ends here ##########
 
     def steer_towards_backward(self, x1, x2, eps):
         ########## Code starts here ##########
-        
+        return steer_towards_backward(x2, x1, eps)
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2, resolution = np.pi/6):
