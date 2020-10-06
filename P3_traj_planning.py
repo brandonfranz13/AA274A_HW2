@@ -59,7 +59,7 @@ def compute_smoothed_traj(path, V_des, alpha, dt):
         t[i+1] = t[i] + np.linalg.norm(path[i+1,:] - path[i,:]) / V_des
     t_max = t[-1]
     t_smoothed = np.arange(0.0, t_max, dt)
-    traj_smoothed = np.zeros(len(t_smoothed), 7)
+    traj_smoothed = np.zeros((len(t_smoothed), 7))
     sply = scipy.interpolate.splrep(x=t, y=path[:,1], s=alpha)
     splx = scipy.interpolate.splrep(x=t, y=path[:,0], s=alpha)
     
