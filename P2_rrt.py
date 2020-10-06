@@ -121,7 +121,7 @@ class RRT(object):
                     success = True
                     self.path = [self.x_goal]
                     current = self.path[-1]
-                    while current != self.x_init:
+                    while np.all(current != self.x_init):
                         self.path.append(V[P[n],:])
                         current = self.path[-1]
                         n -= 1
