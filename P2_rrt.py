@@ -242,7 +242,7 @@ class DubinsRRT(RRT):
         from dubins import path_length
         ########## Code starts here ##########
 
-        d = np.array([path_length(x, V[i,:], self.turning_radius) for i in range(len(V))])
+        d = np.array([path_length(V[i,:], x, self.turning_radius) for i in range(len(V))])
         i = np.argmin(d)
         
         return i
