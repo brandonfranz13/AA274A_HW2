@@ -99,7 +99,7 @@ def modify_traj_with_limits(traj, t, V_max, om_max, dt):
     s = compute_arc_length(V, t)
     V_tilde = rescale_V(V, om, V_max, om_max)
     tau = compute_tau(V_tilde, s)
-    om_tilde = rescale_om(V, om, V_scaled)
+    om_tilde = rescale_om(V, om, V_tilde)
     
     t_new, V_scaled, om_scaled, traj_scaled = interpolate_traj(traj, tau, V_tilde, om_tilde, dt, s_f)
     
