@@ -112,7 +112,7 @@ class RRT(object):
             else:
                 import pdb; pdb.set_trace()
                 x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
-            nearest = self.find_nearest(V[:n,:], x_rand)
+            nearest = self.find_nearest(V[:(n-1),:], x_rand)
             x_near = V[nearest, :]
             x_new = self.steer_towards(x_near, x_rand, eps)
             if self.is_free_motion(self.obstacles, x_near, x_new):
