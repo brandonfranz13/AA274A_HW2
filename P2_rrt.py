@@ -241,8 +241,8 @@ class DubinsRRT(RRT):
     def find_nearest(self, V, x):
         from dubins import path_length
         ########## Code starts here ##########
-        v = np.array(x)-np.array(V)+np.array(V)
-        d = path_length(v, V, self.turning_radius)
+
+        d = np.array([path_length(x, V[i,:], self.turning_radius) for i in range(len(V))])
         i = np.argmin(d)
         
         return i
