@@ -126,6 +126,7 @@ class RRT(object):
                         path.append(V[P[n], :])
                         current = path[-1]
                         n -=1
+                    import pdb; pdb.set_trace()
                     self.path = np.squeeze(np.array(path.reverse()))
                     # self.path = np.zeros((n, state_dim))
                     # self.path[n,:] = V[n,:]
