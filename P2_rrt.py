@@ -134,7 +134,8 @@ class RRT(object):
                     while i > 0:
                         self.path.append(V[i,:])
                         i = P[i]
-                    # import pdb; pdb.set_trace()
+                    import pdb; pdb.set_trace()
+
                     self.path = np.array(self.path.reverse())
                     break
                 n += 1
