@@ -183,7 +183,8 @@ class RRTConnect(object):
             if self.is_free_motion(self.obstacles, x_new, x_near):
                 P_bw[n_bw] = nearest
                 V_bw[n_bw, :] = x_new
-                x_connect = self.find_nearest_forward(V_fw[:n_fw,:], x_new, eps)
+                nearest = self.find_nearest_forward(V_fw[:n_fw,:], x_new)
+                x_connect = V_fw[nearest,:]
                 while True:
                     x_newconnect = self.steer_towards_forward(x_connect, x_new, eps)
                     if self.is_free_motion(self.obstacles, x_connect, x_newconnect):
