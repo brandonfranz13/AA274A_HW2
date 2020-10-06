@@ -38,7 +38,7 @@ class PoseController:
         # delta = wrapToPi(np.arctan2( (y-self.y_g),  (x-self.x_g) ) - self.th_g - np.pi)
         # alpha = wrapToPi(self.th_g + delta - th)
         rho = np.sqrt( (x-self.x_g)**2 + (y-self.y_g)**2 )
-        alpha = np.arctan2((y-self.x_g), (x-self.x_g)) - wrapToPi(th-self.th_g) + np.pi
+        alpha = np.arctan2((y-self.y_g), (x-self.x_g)) - wrapToPi(th-self.th_g) + np.pi
         delta = alpha + wrapToPi(th-self.th_g)
          
         V = self.k1 * rho * np.cos(alpha)
