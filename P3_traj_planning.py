@@ -93,12 +93,15 @@ def modify_traj_with_limits(traj, t, V_max, om_max, dt):
     Hint: This should almost entirely consist of calling functions from Problem Set 1
     """
     ########## Code starts here ##########
+    s_f = State(x = traj[-1, 0], y = traj[-1, 0], V = V_max, th=-np.pi/2)
     
     V,om = compute_controls(traj=traj)
     s = compute_arc_length(V, t)
-    V_scaled = rescale_V(V, om, V_max, om_max)
-    t_new = compute_tau(V_scaled, s)
-    om_scaled = rescale_om(V, om, V_scaled)
+    V_tilde = rescale_V(V, om, V_max, om_max)
+    tau = compute_tau(V_tilde, s)
+    om_tilde = rescale_om(V, om, V_scaled)
+    
+    t_new, V_scaled, om_scaled, traj_scaled = interpolate_traj(traj, tau, V_tilde, om_tilde, dt, s_f)
     
     ########## Code ends here ##########
 
