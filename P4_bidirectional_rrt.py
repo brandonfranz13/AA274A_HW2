@@ -140,7 +140,7 @@ class RRTConnect(object):
             nearest = self.find_nearest_forward(V_fw[:n_fw,:], x_rand)
             x_near = V_fw[nearest, :]
             x_new = self.steer_towards_forward(x_near, x_rand, eps)
-            if self.is_free_motion(x_near, x_new):
+            if self.is_free_motion(self.obstacles, x_near, x_new):
                 P_fw[n_fw] = nearest
                 V_fw[n_fw, :] = x_new
                 nearest = self.find_nearest_backward(V_bw[:n_bw,:], x_new)
@@ -148,7 +148,7 @@ class RRTConnect(object):
                 n_fw += 1
                 while True:
                     x_newconnect = self.steer_towards_backward(x_new, x_connect, eps)
-                    if self.is_free_motion(x_newconnect, x_connect):
+                    if self.is_free_motion(self.obstacles, x_newconnect, x_connect):
                         P_bw[n_bw] = nearest
                         V_bw[n_bw, :] = x_newconnect
                         if np.all(x_newconnect == x_new):
@@ -180,13 +180,13 @@ class RRTConnect(object):
             nearest = self.find_nearest_backward(V[:n_bw,:], x_rand)
             x_near = V_bw[nearest, :]
             x_new = self.steer_towards_backward(x_rand, x_new, eps)
-            if self.is_free_motion(x_new, x_near):
+            if self.is_free_motion(self.obstacles, x_new, x_near):
                 P_bw[n_bw] = nearest
                 V_bw[n_bw, :] = x_new
                 x_connect = self.find_nearest_forward(x_connect, x_new, eps)
                 while True:
                     x_newconnect = self.steer_towards_forward(x_connect, x_new, eps)
-                    if self.is_free_motion(x_connect, x_newconnect):
+                    if self.is_free_motion(self.obstacles, x_connect, x_newconnect):
                         P_fw[n_fw] = nearest
                         V[n_fw, :] = x_new
                         if np.all(x_newconnect == x_new):
