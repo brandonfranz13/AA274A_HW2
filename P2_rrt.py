@@ -110,7 +110,7 @@ class RRT(object):
             if z < goal_bias:
                 x_rand = self.x_goal
             else:
-                import pdb; pdb.set_trace()
+                
                 x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
             nearest = self.find_nearest(V[range(n),:], x_rand)
             x_near = V[nearest, :]
