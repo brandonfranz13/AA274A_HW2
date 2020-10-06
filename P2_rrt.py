@@ -121,11 +121,13 @@ class RRT(object):
                 if np.all(x_new == self.x_goal):
                     success = True
                     self.path = np.zeros((n+1, state_dim))
-                    self.path[n,:] = self.x_goal
+                    self.path[n,:] = V[n,:]
                     
                     while n > 0:
                         self.path[n-1,:] = V[P[n],:]
                         n -= 1
+                    import pdb; pdb.set_trace()
+                    
                     break
                 n += 1
         ########## Code ends here ##########
