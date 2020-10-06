@@ -260,6 +260,8 @@ class GeometricRRTConnect(RRTConnect):
     def steer_towards_forward(self, x1, x2, eps):
         ########## Code starts here ##########
         # Hint: This should take one line.
+        x1 = np.array(x1)
+        x2 = np.array(x2)
         d = np.linalg.norm(x1-x2)
         alpha = np.arctan2((x2[1]-x1[1]), (x2[0]-x1[0]))
         if d <= eps:
@@ -338,12 +340,12 @@ class DubinsRRTConnect(RRTConnect):
             return x2
         else:
             x, _ = path_sample(x1, x2, 1.001*self.turning_radius, eps)
-            return x[1]
+            return np.array(x[1])
         ########## Code ends here ##########
 
     def steer_towards_backward(self, x1, x2, eps):
         ########## Code starts here ##########
-        return self.steer_towards_forward(self.reverse_heading(x2), self.reverse_heading(x1), eps)
+        return self.reverse_heading(self.steer_towards_forward(self.reverse_heading(x2), self.reverse_heading(x1), eps))
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2, resolution = np.pi/6):
