@@ -173,15 +173,12 @@ class RRT(object):
             success = True
             i = 1
             # import pdb; pdb.set_trace()
-            while i <= len(self.path):
-                print(len(self.path))
-                print(i)
+            while i < (len(self.path)-1):
                 if self.is_free_motion(self.obstacles, self.path[i-1,:], self.path[i+1, :]):
                     self.path = np.delete(self.path, i, 0)
                     success = False
+                else:
                     i += 1
-                # else:
-                    # i += 1
             
         ########## Code ends here ##########
 
