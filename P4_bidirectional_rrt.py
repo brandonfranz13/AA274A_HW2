@@ -343,16 +343,7 @@ class DubinsRRTConnect(RRTConnect):
 
     def steer_towards_backward(self, x1, x2, eps):
         ########## Code starts here ##########
-        from dubins import path_length
-        from dubins import path_sample
-        x1_r = reverse_heading(x1)
-        x2_r = reverse_heading(x2)
-        d = path_length(x1_r, x2_r, self.turning_radius)
-        if d <= eps:
-            return x2
-        else:
-            x, _ = path_sample(x1_r, x2_r, 1.001*self.turning_radius, eps)
-            return x[1]
+        return self.steer_towards_forward(reverse_heading(x2), reverse_heading(x1), eps)
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2, resolution = np.pi/6):
