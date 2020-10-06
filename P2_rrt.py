@@ -122,6 +122,7 @@ class RRT(object):
                     success = True
                     self.path = np.zeros((n+1, state_dim))
                     self.path[-1,:] = self.x_goal
+                    print(V[:n,:])
                     print(self.path)
                     for i in range(n):
                         self.path[i,:] = V[P[i+1],:]
