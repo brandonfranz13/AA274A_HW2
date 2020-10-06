@@ -132,6 +132,9 @@ class RRTConnect(object):
         # Hint: Use your implementation of RRT as a reference
 
         ########## Code starts here ##########
+        V_fw[0,:] = self.x_init
+        V_bw[0,:] = self.x_goal
+        
         for i in range(max_iters):
             x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
             nearest = self.find_nearest_forward(V_fw[:n_fw,:], x_rand)
@@ -146,10 +149,29 @@ class RRTConnect(object):
                 while True:
                     x_newconnect = self.steer_towards_backward(x_new, x_connect, eps)
                     if self.is_free_motion(x_newconnect, x_connect):
-                        P[n_bw] = nearest
-                        V[n_bw, :] = x_newconnect
+                        P_bw[n_bw] = nearest
+                        V_bw[n_bw, :] = x_newconnect
                         if np.all(x_newconnect == x_new):
-                            # return RECONSTRUCT_PATH
+                            success = True
+                    
+                            forward = [x_new]
+                            backward = [x_newconnect]
+                            i_fw = len(V_fw[:n_fw,:])
+                            i_bw = len(V_bw[:n_bw,:])
+                            
+                            while i_fw >= 0:
+                                forward.append(V[i_fw,:])
+                                i_fw = P_fw[i_fw]
+                                
+                            while i_bw >= 0:
+                                backward.append(V[i_bw,:])
+                                i_bw = P_bw[i_bw]
+                                
+                            # Remove x_new and flip the array the right way around
+                            forward = np.flip(np.delete(np.array(forward), 0, 0), 0)
+                            
+                            self.path = forward + np.array(backward)
+                            return np.array(self.path)
                         x_connect = x_newconnect
                         n_bw += 1
                     else:
@@ -167,9 +189,29 @@ class RRTConnect(object):
                     if self.is_free_motion(x_connect, x_newconnect):
                         P_fw[n_fw] = nearest
                         V[n_fw, :] = x_new
-                        if x_newconnect == x_new:
-                            #return RECONSTRUCT_PATH
+                        if np.all(x_newconnect == x_new):
+                            success = True
+                    
+                            forward = [x_new]
+                            backward = [x_newconnect]
+                            i_fw = len(V_fw[:n_fw,:])
+                            i_bw = len(V_bw[:n_bw,:])
+                            
+                            while i_fw >= 0:
+                                forward.append(V[i_fw,:])
+                                i_fw = P_fw[i_fw]
+                                
+                            while i_bw >= 0:
+                                backward.append(V[i_bw,:])
+                                i_bw = P_bw[i_bw]
+                                
+                            # Remove x_new and flip the array the right way around
+                            forward = np.flip(np.delete(np.array(forward), 0, 0), 0)
+                            
+                            self.path = forward + np.array(backward)
+                            return np.array(self.path)
                         x_connect = x_newconnect
+                        n_fw += 1
                     else:
                         break
                 
@@ -207,7 +249,7 @@ class GeometricRRTConnect(RRTConnect):
         ########## Code starts here ##########
         # Hint: This should take one line.
         v = abs(np.array(x)-np.array(V))
-        d = v[:,0] + v[:,1]
+        d = v[:,0] + v[:,1] + v[:,2]
         i = np.argmin(d)
         return i
         ########## Code ends here ##########
