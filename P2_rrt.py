@@ -127,8 +127,7 @@ class RRT(object):
                     while i >= 0:
                         self.path.append(V[i,:])
                         i = P[i]
-                        
-                    import pdb; pdb.set_trace()
+
                     self.path = np.flip(np.array(self.path), 0)
                     break
                 n += 1
@@ -169,10 +168,17 @@ class RRT(object):
             None, but should modify self.path
         """
         ########## Code starts here ##########
-        # success = False
-        # while not success:
-            # success = True
-            # for x in self.path 
+        success = False
+        while not success:
+            success = True
+            i = 1
+            max = len(self.path)
+            while i <= max:
+                if self.is_free_motion(self.obstacles, self.path[i-1,:], self.path[i+1, :]):
+                    self.path = np.delete(self.path, i, 0)
+                    success = False
+                else:
+                    i += 1
             
         ########## Code ends here ##########
 
