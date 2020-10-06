@@ -343,7 +343,7 @@ class DubinsRRTConnect(RRTConnect):
 
     def steer_towards_backward(self, x1, x2, eps):
         ########## Code starts here ##########
-        return self.reverse_heading(self.steer_towards_forward(self.reverse_heading(x2), self.reverse_heading(x1), eps))
+        return self.steer_towards_forward(self.reverse_heading(x1), self.reverse_heading(x2), eps))
         ########## Code ends here ##########
 
     def is_free_motion(self, obstacles, x1, x2, resolution = np.pi/6):
