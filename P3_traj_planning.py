@@ -61,12 +61,17 @@ def compute_smoothed_traj(path, V_des, alpha, dt):
         t[i+1] = t[i] + np.linalg.norm(path[i+1,:] - path[i,:]) / V_des
     t_max = t[-1]
     t_smoothed = np.arange(0.0, t_max, dt)
-    
+    traj_smoothed = np.array(len(t_smoothed), 7)
     sply = scipy.interpolate.splrep(x=t, y=path[:,1], s=alpha)
     splx = scipy.interpolate.splrep(x=t, y=path[:,0], s=alpha)
-    y = scipy.interpolate.splev(t_smoothed, sply, der=2)
-    x = scipy.interpolate.splev(t_smoothed, splx, der=2)
-    traj_smoothed = (x, y)
+    
+    traj_smoothed[:, 0] = scipy.interpolate.splev(t_smoothed, splx, der=0)
+    traj_smoothed[:, 1] = scipy.interpolate.splev(t_smoothed, sply, der=0)
+    traj_smoothed[:, 2] = np.arctan2(traj_smoothed[:,1], traj_smoothed[:,0])
+    traj_smoothed[:, 3] = scipy.interpolate.splev(t_smoothed, splx, der=1)
+    traj_smoothed[:, 4] = scipy.interpolate.splev(t_smoothed, sply, der=1)
+    traj_smoothed[:, 5] = scipy.interpolate.splev(t_smoothed, splx, der=2)
+    traj_smoothed[:, 6] = scipy.interpolate.splev(t_smoothed, sply, der=2)
     
     ########## Code ends here ##########
 
