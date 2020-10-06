@@ -120,20 +120,20 @@ class RRT(object):
                 V[n, :] = x_new
                 if np.linalg.norm(x_new - self.x_goal) < eps:
                     success = True
-                    path = [self.x_goal]
-                    current = path[-1]
-                    while np.all(current != self.x_init):
-                        path.append(V[P[n], :])
-                        current = path[-1]
-                        n -=1
-                    import pdb; pdb.set_trace()
-                    self.path = np.squeeze(np.array(path.reverse()))
-                    # self.path = np.zeros((n, state_dim))
-                    # self.path[n,:] = V[n,:]
-                    
-                    # while n > 0:
-                        # self.path[n-1,:] = V[P[n],:]
-                        # n -= 1
+                    # path = [self.x_goal]
+                    # current = path[-1]
+                    # while np.all(current != self.x_init):
+                        # path.append(V[P[n], :])
+                        # current = path[-1]
+                        # n -=1
+                    # import pdb; pdb.set_trace()
+                    # self.path = np.squeeze(np.array(path.reverse()))
+                    self.path = np.zeros((n, state_dim))
+                    self.path[n,:] = V[n,:]
+                    i = n - 1
+                    while i > 0:
+                        self.path[i,:] = V[i,:]
+                        i = P[i]
                     # import pdb; pdb.set_trace()
                     
                     break
