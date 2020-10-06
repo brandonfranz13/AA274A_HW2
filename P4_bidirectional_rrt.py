@@ -160,11 +160,11 @@ class RRTConnect(object):
                             i_bw = len(V_bw[:n_bw,:])
                             
                             while i_fw >= 0:
-                                forward.append(V[i_fw,:])
+                                forward.append(V_fw[i_fw,:])
                                 i_fw = P_fw[i_fw]
                                 
                             while i_bw >= 0:
-                                backward.append(V[i_bw,:])
+                                backward.append(V_bw[i_bw,:])
                                 i_bw = P_bw[i_bw]
                                 
                             # Remove x_new and flip the array the right way around
@@ -177,7 +177,7 @@ class RRTConnect(object):
                     else:
                         break
             x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
-            nearest = self.find_nearest_backward(V[:n_bw,:], x_rand)
+            nearest = self.find_nearest_backward(V_bw[:n_bw,:], x_rand)
             x_near = V_bw[nearest, :]
             x_new = self.steer_towards_backward(x_rand, x_new, eps)
             if self.is_free_motion(self.obstacles, x_new, x_near):
@@ -188,7 +188,7 @@ class RRTConnect(object):
                     x_newconnect = self.steer_towards_forward(x_connect, x_new, eps)
                     if self.is_free_motion(self.obstacles, x_connect, x_newconnect):
                         P_fw[n_fw] = nearest
-                        V[n_fw, :] = x_new
+                        V_fw[n_fw, :] = x_new
                         if np.all(x_newconnect == x_new):
                             success = True
                     
@@ -198,11 +198,11 @@ class RRTConnect(object):
                             i_bw = len(V_bw[:n_bw,:])
                             
                             while i_fw >= 0:
-                                forward.append(V[i_fw,:])
+                                forward.append(V_fw[i_fw,:])
                                 i_fw = P_fw[i_fw]
                                 
                             while i_bw >= 0:
-                                backward.append(V[i_bw,:])
+                                backward.append(V_bw[i_bw,:])
                                 i_bw = P_bw[i_bw]
                                 
                             # Remove x_new and flip the array the right way around
