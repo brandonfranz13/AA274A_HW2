@@ -118,15 +118,21 @@ class RRT(object):
             if self.is_free_motion(self.obstacles, x_near, x_new):
                 P[n] = nearest
                 V[n, :] = x_new
-                if np.all(x_new == self.x_goal):
+                if np.linalg.norm(x_new - x_goal) < eps:
                     success = True
-                    self.path = np.zeros((n+1, state_dim))
-                    self.path[n,:] = V[n,:]
+                    path = [self.x_goal]
+                    current = path[-1]
+                    while current != self.x_init:
+                        path.append(V[P[n], :])
+                        current = path[-1]
+                        n -=1
+                    # self.path = np.zeros((n, state_dim))
+                    # self.path[n,:] = V[n,:]
                     
-                    while n > 0:
-                        self.path[n-1,:] = V[P[n],:]
-                        n -= 1
-                    import pdb; pdb.set_trace()
+                    # while n > 0:
+                        # self.path[n-1,:] = V[P[n],:]
+                        # n -= 1
+                    # import pdb; pdb.set_trace()
                     
                     break
                 n += 1
