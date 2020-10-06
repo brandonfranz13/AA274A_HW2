@@ -125,6 +125,7 @@ class RRT(object):
                         self.path.append(V[P[n],:])
                         current = self.path[-1]
                         n -= 1
+                    import pdb; pdb.set_trace()
                     break
                     # for i in range(n):
                         # np.append(self.path, V[P[i+1],:])
