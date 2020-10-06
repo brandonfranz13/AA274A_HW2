@@ -121,9 +121,11 @@ class RRT(object):
                 if np.all(x_new == self.x_goal):
                     success = True
                     self.path = np.zeros((n+1, state_dim))
-                    self.path[-1,:] = self.x_goal
-                    for i in range(n):
-                        self.path[i,:] = V[P[i+1],:]
+                    self.path[n,:] = self.x_goal
+                    
+                    while n > 0:
+                        self.path[n-1,:] = V[P[n],:]
+                        n -= 1
                     break
                 n += 1
         ########## Code ends here ##########
@@ -136,8 +138,8 @@ class RRT(object):
                 self.plot_path(color="purple", linewidth=2, label="Original solution path")
                 self.shortcut_path()
                 self.plot_path(color="green", linewidth=2, label="Shortcut solution path")
-            # else:
-                # self.plot_path(color="green", linewidth=2, label="Solution path")
+            else:
+                self.plot_path(color="green", linewidth=2, label="Solution path")
             plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.03), fancybox=True, ncol=3)
             plt.scatter(V[:n,0], V[:n,1])
         else:
