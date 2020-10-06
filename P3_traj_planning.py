@@ -55,7 +55,7 @@ def compute_smoothed_traj(path, V_des, alpha, dt):
     
     path = np.array(path)
     t = np.zeros(len(path))
-    t[1:] = [ t[i+1] + np.linalg.norm(path[i+1,:] - path[i,:) / V_des for i in range(len(path)-1)]
+    t[1:] = [ t[i+1] + np.linalg.norm(path[i+1,:] - path[i,:]) / V_des for i in range(len(path)-1)]
     t_max = t[-1]
     t_smoothed = np.arange(0.0, t_max, dt)
     import pdb; pdb.set_trace()
