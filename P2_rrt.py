@@ -128,9 +128,9 @@ class RRT(object):
                         # n -=1
                     # import pdb; pdb.set_trace()
                     # self.path = np.squeeze(np.array(path.reverse()))
-                    self.path = np.zeros((n, state_dim))
-                    self.path[n,:] = V[n,:]
-                    i = n - 1
+                    self.path = np.zeros((len(V[:n,:], state_dim))
+                    self.path[-1,:] = V[n,:]
+                    i = len(V[:,n,:] - 1
                     while i > 0:
                         self.path[i,:] = V[i,:]
                         i = P[i]
