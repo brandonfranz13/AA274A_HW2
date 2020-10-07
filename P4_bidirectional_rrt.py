@@ -171,7 +171,7 @@ class RRTConnect(object):
                             forward = np.flip(np.delete(np.array(forward), 0, 0), 0)
                             
                             self.path = np.concatenate((forward, np.array(backward)))
-                            return np.array(self.path)
+                            break
                         x_connect = x_newconnect
                         n_bw += 1
                     else:
@@ -210,7 +210,7 @@ class RRTConnect(object):
                             forward = np.flip(np.delete(np.array(forward), 0, 0), 0)
                             
                             self.path = np.concatenate((forward, np.array(backward)))
-                            return self.path
+                            break
                         x_connect = x_newconnect
                         n_fw += 1
                     else:
