@@ -170,7 +170,7 @@ class RRTConnect(object):
                             # Remove x_new and flip the array the right way around
                             forward = np.flip(np.delete(np.array(forward), 0, 0), 0)
                             
-                            self.path = forward + np.array(backward)
+                            self.path = np.concatenate(forward, np.array(backward))
                             return np.array(self.path)
                         x_connect = x_newconnect
                         n_bw += 1
@@ -209,8 +209,8 @@ class RRTConnect(object):
                             # Remove x_new and flip the array the right way around
                             forward = np.flip(np.delete(np.array(forward), 0, 0), 0)
                             
-                            self.path = forward + np.array(backward)
-                            return np.array(self.path)
+                            self.path = np.concatenate(forward, np.array(backward))
+                            return self.path
                         x_connect = x_newconnect
                         n_fw += 1
                     else:
