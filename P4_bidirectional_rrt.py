@@ -170,7 +170,7 @@ class RRTConnect(object):
                                 i_bw = P_bw[i_bw]
                                 
                             # Remove x_new and flip the array the right way around
-                            forward = np.flip(np.array(forward), 0)
+                            forward = np.flip(np.delete(np.array(forward), 0, 0), 0)
                             
                             self.path = np.concatenate((forward, np.array(backward)))
                             break
@@ -209,7 +209,7 @@ class RRTConnect(object):
                                 i_bw = P_bw[i_bw]
                                 
                             # Remove x_new and flip the array the right way around
-                            forward = np.flip(np.array(forward), 0)
+                            forward = np.flip(np.delete(np.array(forward), 0, 0), 0)
                             
                             self.path = np.concatenate((forward, np.array(backward)))
                             break
