@@ -136,6 +136,8 @@ class RRTConnect(object):
         V_bw[0,:] = self.x_goal
         
         for i in range(max_iters):
+            if success:
+                break
             x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
             nearest = self.find_nearest_forward(V_fw[:n_fw,:], x_rand)
             x_near = V_fw[nearest, :]
