@@ -136,8 +136,6 @@ class RRTConnect(object):
         V_bw[0,:] = self.x_goal
         
         for i in range(max_iters):
-            if success:
-                break
             x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
             nearest = self.find_nearest_forward(V_fw[:n_fw,:], x_rand)
             x_near = V_fw[nearest, :]
@@ -147,7 +145,6 @@ class RRTConnect(object):
                 V_fw[n_fw, :] = x_new
                 nearest = self.find_nearest_backward(V_bw[:n_bw,:], x_new)
                 x_connect = V_bw[nearest, :]
-                n_fw += 1
                 while True:
                     x_newconnect = self.steer_towards_backward(x_new, x_connect, eps)
                     if self.is_free_motion(self.obstacles, x_newconnect, x_connect):
@@ -178,6 +175,9 @@ class RRTConnect(object):
                         n_bw += 1
                     else:
                         break
+                n_fw += 1
+                if success:
+                    break
             x_rand = np.random.uniform(self.statespace_lo, self.statespace_hi)
             nearest = self.find_nearest_backward(V_bw[:n_bw,:], x_rand)
             x_near = V_bw[nearest, :]
@@ -217,6 +217,9 @@ class RRTConnect(object):
                         n_fw += 1
                     else:
                         break
+                n_bw += 1
+                if success:
+                    break
                 
 
         ########## Code ends here ##########
